@@ -1,0 +1,74 @@
+{
+  "offset": 0,
+  "limit": 5,
+  "endOfRecords": true,
+  "count": 5,
+  "results": [
+    {
+      "gbifID": "1001",
+      "decimalLatitude": 40.416775,
+      "decimalLongitude": -3.703790,
+      "eventDate": "2024-06-15",
+      "scientificName": "Canis lupus Linnaeus, 1758",
+      "taxonRank": "SPECIES",
+      "basisOfRecord": "HUMAN_OBSERVATION",
+      "countryCode": "ES",
+      "recordedBy": "John Doe",
+      "media": [],
+      "issues": []
+    },
+    {
+      "gbifID": "1002",
+      "decimalLatitude": null,
+      "decimalLongitude": null,
+      "eventDate": "2024-07-20",
+      "scientificName": "Canis lupus Linnaeus, 1758",
+      "taxonRank": "SPECIES",
+      "basisOfRecord": "HUMAN_OBSERVATION",
+      "countryCode": "ES",
+      "recordedBy": "Jane Smith",
+      "media": [],
+      "issues": ["ZERO_COORDINATE"]
+    },
+    {
+      "gbifID": "1003",
+      "decimalLatitude": 41.385064,
+      "decimalLongitude": 2.173403,
+      "eventDate": null,
+      "scientificName": "Canis lupus Linnaeus, 1758",
+      "taxonRank": "GENUS",
+      "basisOfRecord": "HUMAN_OBSERVATION",
+      "countryCode": "ES",
+      "recordedBy": null,
+      "media": [],
+      "issues": ["TAXON_MATCH_FUZZY"]
+    },
+    {
+      "gbifID": "1004",
+      "decimalLatitude": 37.389092,
+      "decimalLongitude": -5.984459,
+      "eventDate": "2024-08-10",
+      "scientificName": "Canis lupus Linnaeus, 1758",
+      "taxonRank": "SPECIES",
+      "basisOfRecord": null,
+      "countryCode": null,
+      "recordedBy": "Carlos García",
+      "media": [{"type": "StillImage"}],
+      "issues": ["COUNTRY_DERIVED_FROM_COORDINATES"]
+    },
+    {
+      "gbifID": "1005",
+      "decimalLatitude": 43.263012,
+      "decimalLongitude": -2.934985,
+      "eventDate": "",
+      "scientificName": "Canis lupus Linnaeus, 1758",
+      "taxonRank": "SPECIES",
+      "basisOfRecord": "PRESERVED_SPECIMEN",
+      "countryCode": "ES",
+      "recordedBy": "María López",
+      "media": [],
+      "issues": ["COORDINATE_ROUNDED"]
+    }
+  ],
+  "facets": []
+}
