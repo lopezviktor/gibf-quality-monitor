@@ -2,7 +2,7 @@
 
 > Assess the fitness-for-use of biodiversity occurrence data from the GBIF public API — automatically.
 
-![CI](https://github.com/lopezviktor/gibf-quality-monitor/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/lopezviktor/gbif-quality-monitor/actions/workflows/ci.yml/badge.svg)
 ![Java 21](https://img.shields.io/badge/Java-21-007396?logo=openjdk)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0.3-6DB33F?logo=springboot)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
