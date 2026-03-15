@@ -234,4 +234,60 @@ class ScoreCalculatorTest {
 
         assertThat(result.getGrade()).isEqualTo("F");
     }
+
+    // ── floor at zero ─────────────────────────────────────────────────────────
+
+    @Test
+    void shouldFloorGeographicScoreAtZeroWhenIssuePenaltyExceedsBase() {
+        // geospatialIssueRatio=15 → (1 - 15*0.10) = -0.5 → without floor: negative
+        QualityMetrics metrics = QualityMetrics.builder()
+                .coordinatesCoverage(100.0)
+                .geospatialIssueRatio(15.0)
+                .eventDateCoverage(0.0).temporalIssueRatio(0.0)
+                .taxonRankAtSpeciesLevel(0.0)
+                .countryCoverage(0.0).basisOfRecordCoverage(0.0)
+                .totalRecords(10).recordsWithAnyIssue(0)
+                .build();
+
+        ScoringResult result = calculator.calculate(metrics);
+
+        assertThat(result.getGeographicScore()).isEqualTo(0.0);
+    }
+
+    @Test
+    void shouldFloorTemporalScoreAtZeroWhenIssuePenaltyExceedsBase() {
+        // temporalIssueRatio=12 → (1 - 12*0.10) = -0.2 → without floor: negative
+        QualityMetrics metrics = QualityMetrics.builder()
+                .coordinatesCoverage(0.0).geospatialIssueRatio(0.0)
+                .eventDateCoverage(100.0)
+                .temporalIssueRatio(12.0)
+                .taxonRankAtSpeciesLevel(0.0)
+                .countryCoverage(0.0).basisOfRecordCoverage(0.0)
+                .totalRecords(10).recordsWithAnyIssue(0)
+                .build();
+
+        ScoringResult result = calculator.calculate(metrics);
+
+        assertThat(result.getTemporalScore()).isEqualTo(0.0);
+    }
+
+    @Test
+    void shouldNotReduceTotalScoreBelowZeroWhenMultipleDimensionsAreFloored() {
+        // Both geo and temporal penalty > 10, taxonomic and metadata = 0
+        QualityMetrics metrics = QualityMetrics.builder()
+                .coordinatesCoverage(100.0)
+                .geospatialIssueRatio(20.0)
+                .eventDateCoverage(100.0)
+                .temporalIssueRatio(20.0)
+                .taxonRankAtSpeciesLevel(0.0)
+                .countryCoverage(0.0).basisOfRecordCoverage(0.0)
+                .totalRecords(10).recordsWithAnyIssue(0)
+                .build();
+
+        ScoringResult result = calculator.calculate(metrics);
+
+        assertThat(result.getGeographicScore()).isEqualTo(0.0);
+        assertThat(result.getTemporalScore()).isEqualTo(0.0);
+        assertThat(result.getScore()).isEqualTo(0.0);
+    }
 }

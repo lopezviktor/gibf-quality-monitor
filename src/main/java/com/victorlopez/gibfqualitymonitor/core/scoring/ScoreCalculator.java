@@ -23,13 +23,13 @@ public class ScoreCalculator {
     private static final double GRADE_D_MIN = 30.0;
 
     public ScoringResult calculate(QualityMetrics metrics) {
-        double geographicScore = metrics.getCoordinatesCoverage()
+        double geographicScore = Math.max(0.0, metrics.getCoordinatesCoverage()
                 * GEOGRAPHIC_WEIGHT
-                * (1 - metrics.getGeospatialIssueRatio() * ISSUE_PENALTY_FACTOR);
+                * (1 - metrics.getGeospatialIssueRatio() * ISSUE_PENALTY_FACTOR));
 
-        double temporalScore = metrics.getEventDateCoverage()
+        double temporalScore = Math.max(0.0, metrics.getEventDateCoverage()
                 * TEMPORAL_WEIGHT
-                * (1 - metrics.getTemporalIssueRatio() * ISSUE_PENALTY_FACTOR);
+                * (1 - metrics.getTemporalIssueRatio() * ISSUE_PENALTY_FACTOR));
 
         double taxonomicScore = metrics.getTaxonRankAtSpeciesLevel()
                 * TAXONOMIC_WEIGHT;
