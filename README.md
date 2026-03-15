@@ -9,6 +9,15 @@
 
 ---
 
+## Live Demo
+
+| | URL |
+|---|---|
+| **Swagger UI** | https://gbif-quality-monitor-production.up.railway.app/swagger-ui/index.html |
+| **API Base** | https://gbif-quality-monitor-production.up.railway.app/api/v1/analyses |
+
+---
+
 ## What it does
 
 The GBIF Data Quality Monitor fetches biodiversity occurrence records for any taxon from the
@@ -306,6 +315,7 @@ mvn spring-boot:run
 ```
 
 The server starts on `http://localhost:8080`.
+Swagger UI is available at `http://localhost:8080/swagger-ui.html`.
 
 ### Run the test suite
 
@@ -350,7 +360,7 @@ src/main/java/com/victorlopez/gbifqualitymonitor/
 ├── application/
 │   └── usecase/            # RequestAnalysisUseCase, FindAnalysisReportsUseCase — orchestration
 │
-├── config/                 # JacksonConfig, RuleEngineConfig — Spring bean wiring
+├── config/                 # JacksonConfig, RuleEngineConfig, OpenApiConfig — Spring bean wiring
 │
 ├── core/
 │   ├── metrics/            # MetricsAggregator — RuleResult list → QualityMetrics
