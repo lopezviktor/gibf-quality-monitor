@@ -9,6 +9,7 @@ import com.victorlopez.gbifqualitymonitor.core.rules.impl.EventDatePresentRule;
 import com.victorlopez.gbifqualitymonitor.core.rules.impl.HasMediaRule;
 import com.victorlopez.gbifqualitymonitor.core.rules.impl.NoGeospatialIssuesRule;
 import com.victorlopez.gbifqualitymonitor.core.rules.impl.NoTaxonomyIssuesRule;
+import com.victorlopez.gbifqualitymonitor.core.rules.impl.NoTemporalIssuesRule;
 import com.victorlopez.gbifqualitymonitor.core.rules.impl.RecordedByPresentRule;
 import com.victorlopez.gbifqualitymonitor.core.rules.impl.TaxonRankAtSpeciesLevelRule;
 import org.springframework.context.annotation.Bean;
@@ -29,6 +30,7 @@ public class RuleEngineConfig {
                 new CountryPresentRule(),
                 new NoGeospatialIssuesRule(),
                 new NoTaxonomyIssuesRule(),
+                new NoTemporalIssuesRule(),
                 new RecordedByPresentRule(),
                 new HasMediaRule()
         );

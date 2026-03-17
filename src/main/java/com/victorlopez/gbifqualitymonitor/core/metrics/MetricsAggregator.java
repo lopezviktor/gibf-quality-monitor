@@ -17,6 +17,7 @@ public class MetricsAggregator {
     private static final String BASIS_OF_RECORD_PRESENT    = "BASIS_OF_RECORD_PRESENT";
     private static final String NO_GEOSPATIAL_ISSUES       = "NO_GEOSPATIAL_ISSUES";
     private static final String NO_TAXONOMY_ISSUES         = "NO_TAXONOMY_ISSUES";
+    private static final String NO_TEMPORAL_ISSUES         = "NO_TEMPORAL_ISSUES";
 
     public QualityMetrics aggregate(List<RuleResult> results, int totalRecords) {
         if (totalRecords == 0) {
@@ -35,17 +36,19 @@ public class MetricsAggregator {
 
         long geoFailed = countFailed(results, NO_GEOSPATIAL_ISSUES);
         long taxFailed = countFailed(results, NO_TAXONOMY_ISSUES);
+        long temporalFailed = countFailed(results, NO_TEMPORAL_ISSUES);
 
-        // recordsWithAnyIssue: upper-bound approximation using the union of geospatial and
-        // taxonomy failures. Exact deduplication is not possible from a flat list, so the
-        // result is capped at totalRecords to avoid overcounting records that fail both rules.
-        int recordsWithAnyIssue = (int) Math.min(totalRecords, geoFailed + taxFailed);
+        // recordsWithAnyIssue: upper-bound approximation using the union of geospatial,
+        // taxonomy, and temporal failures. Exact deduplication is not possible from a flat
+        // list, so the result is capped at totalRecords to avoid overcounting records that
+        // fail multiple rules.
+        int recordsWithAnyIssue = (int) Math.min(totalRecords, geoFailed + taxFailed + temporalFailed);
 
         return QualityMetrics.builder()
                 .coordinatesCoverage(percentage(countPassed(results, COORDINATES_PRESENT), totalRecords))
                 .geospatialIssueRatio(percentage(geoFailed, totalRecords))
                 .eventDateCoverage(percentage(countPassed(results, EVENT_DATE_PRESENT), totalRecords))
-                .temporalIssueRatio(0.0) // no temporal issues rule implemented yet
+                .temporalIssueRatio(percentage(temporalFailed, totalRecords))
                 .taxonRankAtSpeciesLevel(percentage(countPassed(results, TAXON_RANK_AT_SPECIES_LEVEL), totalRecords))
                 .countryCoverage(percentage(countPassed(results, COUNTRY_PRESENT), totalRecords))
                 .basisOfRecordCoverage(percentage(countPassed(results, BASIS_OF_RECORD_PRESENT), totalRecords))

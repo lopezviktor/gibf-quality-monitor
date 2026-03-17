@@ -146,10 +146,41 @@ class MetricsAggregatorTest {
     }
 
     @Test
-    void shouldReturnZeroTemporalIssueRatioSinceNoTemporalRuleExists() {
-        QualityMetrics metrics = aggregator.aggregate(List.of(), 3);
+    void shouldComputeTemporalIssueRatioCorrectly() {
+        List<RuleResult> results = List.of(
+                RuleResult.fail("NO_TEMPORAL_ISSUES", "has issues"),
+                RuleResult.pass("NO_TEMPORAL_ISSUES"),
+                RuleResult.pass("NO_TEMPORAL_ISSUES"),
+                RuleResult.pass("NO_TEMPORAL_ISSUES")
+        );
+
+        QualityMetrics metrics = aggregator.aggregate(results, 4);
+
+        assertThat(metrics.getTemporalIssueRatio()).isEqualTo(25.0);
+    }
+
+    @Test
+    void shouldReturnZeroTemporalIssueRatioWhenAllPass() {
+        List<RuleResult> results = List.of(
+                RuleResult.pass("NO_TEMPORAL_ISSUES"),
+                RuleResult.pass("NO_TEMPORAL_ISSUES")
+        );
+
+        QualityMetrics metrics = aggregator.aggregate(results, 2);
 
         assertThat(metrics.getTemporalIssueRatio()).isEqualTo(0.0);
+    }
+
+    @Test
+    void shouldReturnHundredTemporalIssueRatioWhenAllFail() {
+        List<RuleResult> results = List.of(
+                RuleResult.fail("NO_TEMPORAL_ISSUES", "has issues"),
+                RuleResult.fail("NO_TEMPORAL_ISSUES", "has issues")
+        );
+
+        QualityMetrics metrics = aggregator.aggregate(results, 2);
+
+        assertThat(metrics.getTemporalIssueRatio()).isEqualTo(100.0);
     }
 
     // --- recordsWithAnyIssue ---
@@ -190,6 +221,22 @@ class MetricsAggregatorTest {
                 RuleResult.pass("NO_TAXONOMY_ISSUES"),
                 RuleResult.pass("NO_GEOSPATIAL_ISSUES"),
                 RuleResult.fail("NO_TAXONOMY_ISSUES", "has issues")
+        );
+
+        QualityMetrics metrics = aggregator.aggregate(results, 2);
+
+        assertThat(metrics.getRecordsWithAnyIssue()).isEqualTo(2);
+    }
+
+    @Test
+    void shouldCountRecordsWithTemporalIssuesOnly() {
+        List<RuleResult> results = List.of(
+                RuleResult.pass("NO_GEOSPATIAL_ISSUES"),
+                RuleResult.pass("NO_TAXONOMY_ISSUES"),
+                RuleResult.fail("NO_TEMPORAL_ISSUES", "has issues"),
+                RuleResult.pass("NO_GEOSPATIAL_ISSUES"),
+                RuleResult.pass("NO_TAXONOMY_ISSUES"),
+                RuleResult.fail("NO_TEMPORAL_ISSUES", "has issues")
         );
 
         QualityMetrics metrics = aggregator.aggregate(results, 2);
